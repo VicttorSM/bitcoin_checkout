@@ -3,10 +3,16 @@ package pack;
 import java.util.ArrayList;
 
 /**
+ * Controller class, where all the logic of the program is computed
+ *
  * @author Victtor da Silva Mendes
  */
 public class Controller {
 
+    /**
+     *
+     * @param user the user that is going to use the program
+     */
     public Controller(User user) {
         coins = new ArrayList<>();
         this.user = user;
@@ -14,6 +20,12 @@ public class Controller {
         printMenu();
     }
 
+    /**
+     * Computes and executes the command that is given
+     *
+     * @param command the line that the user typed
+     * @return if it was able to execute the command
+     */
     public boolean executeCommand(String command) {
         String[] arr = parseCommand(command);
         if (arr[0] == null) {
@@ -101,6 +113,9 @@ public class Controller {
         return true;
     }
 
+    /**
+     * Prints a welcome message to the user
+     */
     public void printWelcomeMessage() {
         System.out.println("Olá " + user.getFirstName() + "!!");
         System.out.println("Seja bem vindo!");
@@ -108,6 +123,9 @@ public class Controller {
                 + "para obter informações sobre os comandos\n");
     }
 
+    /**
+     * Prints the possible commands
+     */
     public void printMenu() {
         System.out.println("Digite um comando:");
         System.out.println("- bitcoin buy [id] [quantidade]");
@@ -119,6 +137,9 @@ public class Controller {
         System.out.println("- quit\n");
     }
 
+    /**
+     * Prints all the coins that were added
+     */
     public void printCoins() {
         System.out.println("Coins:");
         for (Bitcoin coin : coins) {
@@ -126,6 +147,12 @@ public class Controller {
         }
     }
 
+    /**
+     * Splits a line of command in 4
+     *
+     * @param command a line of command
+     * @return a String[4] array
+     */
     private String[] parseCommand(String command) {
         command = command.trim();
         String[] arr = command.split(" ");
@@ -133,11 +160,11 @@ public class Controller {
         int index = 0;
         for (String str : arr) {
             if (str != null && !str.equals("")) {
+                subcommands[index] = str;
+                index++;
                 if (index >= subcommands.length) {
                     break;
                 }
-                subcommands[index] = str;
-                index++;
             }
         }
         if (subcommands[0] != null) {
@@ -152,6 +179,13 @@ public class Controller {
         return subcommands;
     }
 
+    /**
+     * Gets a coin by id
+     *
+     * @param id the id of the coin that it's searching
+     * @return if it is able to find then it returns the coin, else it returns
+     * null
+     */
     private Bitcoin getCoin(String id) {
         for (Bitcoin coin : coins) {
             if (coin.getId().equals(id)) {
@@ -161,6 +195,11 @@ public class Controller {
         return null;
     }
 
+    /**
+     * Verifies if an operation was sucessful and prints the result
+     *
+     * @param sucess the return of the function that it is trying to run
+     */
     private void tryOperation(boolean sucess) {
         if (sucess) {
             System.out.println("Operação realizada com sucesso!!");
